@@ -15,8 +15,10 @@ import com.booking.user_service.constant.UserConstant;
 import com.booking.user_service.dto.UserDto;
 import com.booking.user_service.service.UserService;
 
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
 
 
+@SecurityRequirement(name = "bearerAuth")
 @ComponentScan
 @RestController
 @CrossOrigin
