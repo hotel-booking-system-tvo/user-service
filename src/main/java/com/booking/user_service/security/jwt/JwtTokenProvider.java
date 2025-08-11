@@ -38,13 +38,17 @@ public class JwtTokenProvider {
     private long refreshJwtExpirationMs;
 
     public String generateAccessToken(AppUserDetail userPrincipal) {
+
         Algorithm algorithm = Algorithm.HMAC256(jwtSecret.getBytes());
 
         return JWT.create()
-        		// co the getId hoac getUserName hoac email
-                .withSubject(userPrincipal.getUsername().toString())
+                .withSubject(userPrincipal.getUsername())
+                .withClaim("roles", userPrincipal.getAuthorities().stream()
+                        .map(GrantedAuthority::getAuthority)
+                        .map(role -> role.replace("ROLE_", "")) // Lưu trong token không cần prefix
+                        .collect(Collectors.toList()))
+                .withIssuedAt(new Date())
                 .withExpiresAt(new Date(System.currentTimeMillis() + jwtExpirationMs))
-                .withClaim("roles", getRoles(userPrincipal))
                 .sign(algorithm);
     }
 

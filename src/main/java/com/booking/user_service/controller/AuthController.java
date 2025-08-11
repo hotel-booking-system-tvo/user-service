@@ -27,6 +27,8 @@ public class AuthController {
 
 	    @PostMapping("/login")
 	    public ResponseEntity<?> authenticateUser(@RequestBody LoginRequest loginRequest) {
+	    	
+	    	//Password username co ton tia hay dung ko 
 	    	 Authentication authentication = authenticationManager.authenticate(
 	                 new UsernamePasswordAuthenticationToken(loginRequest.getUsername(), loginRequest.getPassword())
 	         );
